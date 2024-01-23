@@ -3,7 +3,8 @@
 
 #include<gsl/gsl_matrix.h>
 
-gsl_matrix *matrix_read(FILE *file, gsl_matrix *matrix);
+
+gsl_matrix *matrix_read(char *filename);
 void matrix_print(gsl_matrix *matrix);
 
 #endif

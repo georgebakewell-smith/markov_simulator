@@ -2,26 +2,14 @@
 #include<gsl/gsl_matrix.h>
 #include"../include/tools.h"
 
+#define W_FILENAME "W.txt"
 
 int main(){
-    gsl_matrix *W;
-
-    /* Extract matrix from file */
-    FILE *W_txt_file;
-    char W_filename[] = "W.txt";
-    W_txt_file = fopen(W_filename, "r");
-
-    if(W_txt_file != NULL){ 
-        W = matrix_read(W_txt_file, W);
-    }else{
-        printf("Error opening %s\n", W_filename);
-    }
+    gsl_matrix *W = matrix_read(W_FILENAME);
 
     matrix_print(W);
-
-    fclose(W_txt_file);
+    
     gsl_matrix_free(W);
 
     return 0;
 }
-

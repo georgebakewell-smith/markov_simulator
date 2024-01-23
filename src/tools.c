@@ -1,24 +1,33 @@
 #include<stdio.h>
 #include<gsl/gsl_matrix.h>
 
-gsl_matrix *matrix_read(FILE *file, gsl_matrix *matrix){
+gsl_matrix *matrix_read(char *filename){
     /* Creates a matrix of dimensions specified in the file and writes data to it */
+    FILE *file;
+    
+    file = fopen(filename, "r");
 
-    /* Reads number of rows and columns */
-    int rows, cols;
-    fscanf(file, "%d %d", &rows, &cols);
-    matrix = gsl_matrix_alloc(rows, cols);
+    if(file != NULL){ 
+        /* Reads number of rows and columns */
+        int rows, cols;
+        fscanf(file, "%d %d", &rows, &cols);
+        gsl_matrix *matrix = gsl_matrix_alloc(rows, cols);
 
-    /* Writes data */
-    for(size_t i = 0; i < matrix->size1; ++i){
-        for(size_t j = 0; j < matrix->size2; ++j){
-            double element;           
-            fscanf(file, "%lf", &element);
-            gsl_matrix_set(matrix, i, j, element);
+        /* Writes data */
+        for(size_t i = 0; i < matrix->size1; ++i){
+            for(size_t j = 0; j < matrix->size2; ++j){
+                double element;           
+                fscanf(file, "%lf", &element);
+                gsl_matrix_set(matrix, i, j, element);
+            }
         }
-    }
+        fclose(file);
+        return matrix; 
 
-    return matrix;    
+    }else{
+        printf("Error opening %s\n", filename);
+        return NULL;
+    }    
 }
 
 void matrix_print(gsl_matrix *matrix){
